@@ -54,9 +54,10 @@ def llenado_matriz(opcion, numFil=0):
     vectorResultados = []
     for i in range(numFil):
         valMatriz = []
-        print("---- Introduce los valores separados por un espacio ----")
-        print("--- Ej: \" 3 3 2 \" ")
-        if opcion == "E":
+        if i == 0:
+            print("---- Introduce los valores separados por un espacio ----")
+            print("--- Ej: \" 3 3 2 \" ")
+        if opcion == "E" and i == 0:
             print("--- Ej: si la ecuacion es 3x + 3y = 2, deberas colocar: \" 3 3 2 \" ")
         valUsuario = input("Valores de la fila {}: ".format(i + 1))
         valFila = valUsuario.split(" ")
