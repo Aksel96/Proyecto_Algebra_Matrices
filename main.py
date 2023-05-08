@@ -55,10 +55,10 @@ def llenado_matriz(opcion, numFil=0):
     for i in range(numFil):
         valMatriz = []
         if i == 0:
-            print("---- Introduce los valores separados por un espacio ----")
-            print("--- Ej: \" 3 3 2 \" ")
+            print("----    Introduce los valores separados por un espacio")
+            print("----    Ej: \" 3 3 2 \"")
         if opcion == "E" and i == 0:
-            print("--- Ej: si la ecuacion es 3x + 3y = 2, deberas colocar: \" 3 3 2 \" ")
+            print("----    Ej: Si la ecuacion es 3x + 1y - 4z = 7, deberas colocar: \" 3 1 -4 7 \"")
         valUsuario = input("Valores de la fila {}: ".format(i + 1))
         valFila = valUsuario.split(" ")
         for j in range(len(valFila)):
@@ -78,12 +78,12 @@ def menu():
     print("PROGRAMA GENERAL DE OPERACIONES CON MATRICES")
     print("-------------------------------------------------------")
     print("Menu de opciones:")
-    print("\ta) Producto de dos Matrices")
-    print("\tb) Resta de dos Matrices")
-    print("\tc) Suma de dos Matrices")
-    print("\td) Determinante de una Matriz")
-    print("\te) Solucion Sistema de ecuaciones de N Dimensiones")
-    print("\ts) Salir")
+    print("\tA) PRODUCTO de Dos Matrices")
+    print("\tB) RESTA de Dos Matrices")
+    print("\tC) SUMA de Dos Matrices")
+    print("\tD) DETERMINATE de una Matriz")
+    print("\tE) Solucion de Sistema de Ecuaciones de N Dimensiones")
+    print("\tS) SALIR")
     print("-------------------------------------------------------")
 
 
@@ -99,18 +99,17 @@ def opcion_menu(opcion):
             print("Obtencion del Determinante de una matriz")
             numFilas = int(input("Introduce el numero de filas que tiene la Matriz: "))
             matriz = llenado_matriz("D", numFilas)
-            print("Matriz en la funcion opcion menu {} ".format(matriz))
             determinante = determinante_matriz(matriz)
-            print(determinante)
+            print("El determinante de la matriz {} es: {}".format(matriz, determinante))
 
         case "E":
             print("Solucion de un sistema de ecuaciones de N dimensiones")
             numFilas = int(input("Introduce el numero de filas que tiene la Matriz: "))
             matriz, vector_resultados = llenado_matriz("E", numFilas)
-            print("matriz: {}".format(matriz))
+            print("Matriz: {}".format(matriz))
             print("Vector: {}".format(vector_resultados))
             resultado = sistema_N_Dimensiones(matriz, vector_resultados)
-            print(resultado)
+            print("El valor de las incognitas en orden es el siguiente: {}".format(resultado))
 
         case "S":
             print("Adios...")
