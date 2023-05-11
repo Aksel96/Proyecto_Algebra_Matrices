@@ -100,7 +100,9 @@ def llenado_matriz(opcion, numFil=0):
 
 def matrices_iguales(matrizUno, matrizDos):
     filasUno, columnasUno = len(matrizUno), len(matrizUno[0])
+    print(filasUno, columnasUno)
     filasDos, columnasDos = len(matrizDos), len(matrizDos[0])
+    print(filasUno, columnasDos)
     if filasUno != filasDos or columnasUno != columnasDos:
         return False
     for i in range(filasUno):
@@ -143,15 +145,13 @@ def opcion_menu(opcion):
             num_filas = int(input("Introduce el numero de filas que tienen las matrices: "))
             matriz1 = llenado_matriz("C", num_filas)
             matriz2 = llenado_matriz("C", num_filas)
-            # if matrices_iguales(matriz1, matriz2):
-            #   resultado = resta_matriz(matriz1, matriz2)
-            #  print("La resta de la matriz uno {} y la matriz dos {} es: {}".format(matriz1, matriz2, resultado))
-            # else:
-            #   print("\t\t----------ERROR---------- "
-            #        "\nLas matrices no tienen los mismos elementos"
-            #       "\nVuelve a leer las instrucciones")
-            resultado = resta_matriz(matriz1, matriz2)
-            print("La resta de la matriz uno {} y la matriz dos {} es: {}".format(matriz1, matriz2, resultado))
+            if not matrices_iguales(matriz1, matriz2):
+                resultado = resta_matriz(matriz1, matriz2)
+                print("La resta de la matriz uno {} y la matriz dos {} es: {}".format(matriz1, matriz2, resultado))
+            else:
+                print("\t\t----------ERROR---------- "
+                      "\nLas matrices no tienen los mismos elementos"
+                      "\nVuelve a leer las instrucciones")
         case "C":
             print("Suma de dos matrices")
             print("Recuerda que para que la suma sea valida ambas matrices tienen que tener el mismo numero de "
@@ -159,15 +159,14 @@ def opcion_menu(opcion):
             num_filas = int(input("Introduce el numero de filas que tienen las matrices: "))
             matriz1 = llenado_matriz("C", num_filas)
             matriz2 = llenado_matriz("C", num_filas)
-            # if matrices_iguales(matriz1, matriz2):
-            #   resultado = suma_matriz(matriz1, matriz2)
-            #  print("La suma de la matriz uno {} y la matriz dos {} es: {}".format(matriz1, matriz2, resultado))
-            # else:
-            #   print("\t\t----------ERROR---------- "
-            #        "\nLas matrices no tienen los mismos elementos"
-            #       "\nVuelve a leer las instrucciones")
-            resultado = suma_matriz(matriz1, matriz2)
-            print("La suma de la matriz uno {} y la matriz dos {} es: {}".format(matriz1, matriz2, resultado))
+            if not matrices_iguales(matriz1, matriz2):
+                resultado = suma_matriz(matriz1, matriz2)
+                print("La suma de la matriz uno {} y la matriz dos {} es: {}".format(matriz1, matriz2, resultado))
+            else:
+                print("\t\t----------ERROR---------- "
+                      "\nLas matrices no tienen los mismos elementos"
+                      "\nVuelve a leer las instrucciones")
+
         case "D":
             print("Obtencion del Determinante de una matriz")
             num_filas = int(input("Introduce el numero de filas que tiene la Matriz: "))
