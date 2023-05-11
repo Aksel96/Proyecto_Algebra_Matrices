@@ -60,7 +60,12 @@ def sistema_N_Dimensiones(matrizNDim, vectorResultados):
     n = len(matrizNDim)
     for p in range(n - 1):
         for j in range(p + 1, n):
-            valor = -matrizNDim[j][p] / matrizNDim[p][p]
+            if matrizNDim[p][p] != 0:
+                valor = -matrizNDim[j][p] / matrizNDim[p][p]
+            elif (-matrizNDim[j][p]) == 0 and (matrizNDim[j][p]) == 0:
+                return "El sistema tiene multiples soluciones"
+            else:
+                return "El sistema no tiene solucion"
             for i in range(n):
                 matrizNDim[j][i] = valor * matrizNDim[p][i] + matrizNDim[j][i]
             vectorResultados[j] = valor * vectorResultados[p] + vectorResultados[j]
@@ -84,7 +89,10 @@ def llenado_matriz(opcion, numFil=0):
             print("----    Ej: \" 3 3 2 \"")
         if opcion == "E" and i == 0:
             print("----    Ej: Si la ecuacion es 3x + 1y - 4z = 7, deberas colocar: \" 3 1 -4 7 \"")
-        valUsuario = input("Valores de la fila {}: ".format(i + 1))
+        if opcion != "E":
+            valUsuario = input("Valores de la fila {}: ".format(i + 1))
+        else:
+            valUsuario = input("Valores de la Ecuacion {}: ".format(i + 1))
         valFila = valUsuario.split(" ")
         for j in range(len(valFila)):
             valMatriz.append(int(valFila[j]))
@@ -104,9 +112,8 @@ def matrices_iguales(matrizUno, matrizDos):
     if filasUno != filasDos or columnasUno != columnasDos:
         return False
     for i in range(filasUno):
-        for j in range(columnasUno):
-            if matrizUno[i][j] != matrizDos[i][j]:
-                return False
+        if len(matrizUno[i]) != len(matrizDos[i]):
+            return False
     return True
 
 
@@ -143,7 +150,7 @@ def opcion_menu(opcion):
             num_filas = int(input("Introduce el numero de filas que tienen las matrices: "))
             matriz1 = llenado_matriz("C", num_filas)
             matriz2 = llenado_matriz("C", num_filas)
-            if not matrices_iguales(matriz1, matriz2):
+            if matrices_iguales(matriz1, matriz2):
                 resultado = resta_matriz(matriz1, matriz2)
                 print("La resta de la matriz uno {} y la matriz dos {} es: {}".format(matriz1, matriz2, resultado))
             else:
@@ -157,7 +164,7 @@ def opcion_menu(opcion):
             num_filas = int(input("Introduce el numero de filas que tienen las matrices: "))
             matriz1 = llenado_matriz("C", num_filas)
             matriz2 = llenado_matriz("C", num_filas)
-            if not matrices_iguales(matriz1, matriz2):
+            if matrices_iguales(matriz1, matriz2):
                 resultado = suma_matriz(matriz1, matriz2)
                 print("La suma de la matriz uno {} y la matriz dos {} es: {}".format(matriz1, matriz2, resultado))
             else:
@@ -174,7 +181,8 @@ def opcion_menu(opcion):
 
         case "E":
             print("Solucion de un sistema de ecuaciones de N dimensiones")
-            num_filas = int(input("Introduce el numero de filas que tiene la Matriz: "))
+            print("Recuerda que le numero de incognitas tiene que ser el mismo que el de las ecuaciones")
+            num_filas = int(input("Introduce el numero de Incognitas que tiene la matriz: "))
             matriz, vector_resultados = llenado_matriz("E", num_filas)
             print("Matriz: {}".format(matriz))
             print("Vector: {}".format(vector_resultados))
