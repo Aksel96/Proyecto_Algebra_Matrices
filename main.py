@@ -100,9 +100,7 @@ def llenado_matriz(opcion, numFil=0):
 
 def matrices_iguales(matrizUno, matrizDos):
     filasUno, columnasUno = len(matrizUno), len(matrizUno[0])
-    print(filasUno, columnasUno)
     filasDos, columnasDos = len(matrizDos), len(matrizDos[0])
-    print(filasUno, columnasDos)
     if filasUno != filasDos or columnasUno != columnasDos:
         return False
     for i in range(filasUno):
@@ -184,15 +182,19 @@ def opcion_menu(opcion):
             print("El valor de las incognitas en orden es el siguiente: {}".format(resultado))
 
         case "S":
-            print("Adios...")
+            print("\nAdios...")
         case other:
             print("Opcion no valida :/")
 
 
 def main():
-    menu()
-    opcion = input("Introduce la opcion: ")
-    opcion_menu(opcion.upper())
+    while True:
+        menu()
+        opcion = input("Introduce la opcion: ")
+        opcion_menu(opcion.upper())
+        if opcion.upper() == "S":
+            break
+    print("\n\t\t#######\tGracias por usar el Programa :D\t#######")
 
 
 if __name__ == '__main__':
