@@ -4,11 +4,16 @@
 #   ALGEBRA LINEAL
 #   PROYECTO FINAL
 #   MAYO 2023
+import os
+
+clearConsole = lambda: os.system('cls' if os.name in ('nt', 'dos') else 'clear')
+
+
 def producto_matriz(matrizUno, matrizDos):
     filasUno, columnasUno = len(matrizUno), len(matrizUno[0])
     filasDos, columnasDos = len(matrizDos), len(matrizDos[0])
     if columnasUno != filasDos:
-        raise ValueError("Las matrices no se pueden multiplicar")
+        return False
     resultado = [[0 for j in range(columnasDos)] for i in range(filasUno)]
     for i in range(filasUno):
         for j in range(columnasDos):
@@ -60,12 +65,7 @@ def sistema_N_Dimensiones(matrizNDim, vectorResultados):
     n = len(matrizNDim)
     for p in range(n - 1):
         for j in range(p + 1, n):
-            if matrizNDim[p][p] != 0:
-                valor = -matrizNDim[j][p] / matrizNDim[p][p]
-            elif (-matrizNDim[j][p]) == 0 and (matrizNDim[j][p]) == 0:
-                return "El sistema tiene multiples soluciones"
-            else:
-                return "El sistema no tiene solucion"
+            valor = -matrizNDim[j][p] / matrizNDim[p][p]
             for i in range(n):
                 matrizNDim[j][i] = valor * matrizNDim[p][i] + matrizNDim[j][i]
             vectorResultados[j] = valor * vectorResultados[p] + vectorResultados[j]
@@ -117,23 +117,32 @@ def matrices_iguales(matrizUno, matrizDos):
     return True
 
 
+def pintar_matriz(matriz):
+    for fila in matriz:
+        print("[", end="")
+        for elemento in fila:
+            print(f"{elemento:4}", end="")
+        print("]")
+
+
 def menu():
-    print("-------------------------------------------------------")
-    print("PROGRAMA GENERAL DE OPERACIONES CON MATRICES")
-    print("-------------------------------------------------------")
+    print("+---------------------------------------------------------------+")
+    print("\t\tPROGRAMA GENERAL DE OPERACIONES CON MATRICES")
+    print("+---------------------------------------------------------------+")
     print("Menu de opciones:")
-    print("\tA) PRODUCTO de Dos Matrices")
-    print("\tB) RESTA de Dos Matrices")
-    print("\tC) SUMA de Dos Matrices")
-    print("\tD) DETERMINATE de una Matriz")
-    print("\tE) Solucion de Sistema de Ecuaciones de N Dimensiones")
-    print("\tS) SALIR")
-    print("-------------------------------------------------------")
+    print("\t1) PRODUCTO de Dos Matrices")
+    print("\t2) RESTA de Dos Matrices")
+    print("\t3) SUMA de Dos Matrices")
+    print("\t4) DETERMINATE de una Matriz")
+    print("\t5) Solucion de Sistema de Ecuaciones de N Dimensiones")
+    print("\t6) Limpiar la pantalla")
+    print("\tX) SALIR")
+    print("+---------------------------------------------------------------+")
 
 
 def opcion_menu(opcion):
     match opcion:
-        case "A":
+        case "1":
             print("Obtencion del producto de dos matrices")
             print("Recuerda que para que el producto sea valido es necesario que el número de columnas de la primera "
                   "matriz sea igual al número de filas de la segunda matriz")
@@ -142,8 +151,17 @@ def opcion_menu(opcion):
             num_filas2 = int(input("Introduce el numero de filas que tiene la segunda matriz: "))
             matriz2 = llenado_matriz("C", num_filas2)
             resultado = producto_matriz(matriz1, matriz2)
-            print("El producto de la matriz uno {} y la matriz dos {} es: {}".format(matriz1, matriz2, resultado))
-        case "B":
+            if not resultado:
+                print("Las matrices no se pueden multiplicar")
+            else:
+                print("El resultado del PRODUCTO de dos matrices:")
+                print("Matriz 1:")
+                pintar_matriz(matriz1)
+                print("Matriz 2:")
+                pintar_matriz(matriz2)
+                print("Matriz de resultado:")
+                pintar_matriz(resultado)
+        case "2":
             print("Resta de dos matrices")
             print("Recuerda que para que la resta sea valida, ambas matrices tienen que tener el mismo numero de "
                   "elementos")
@@ -152,12 +170,18 @@ def opcion_menu(opcion):
             matriz2 = llenado_matriz("C", num_filas)
             if matrices_iguales(matriz1, matriz2):
                 resultado = resta_matriz(matriz1, matriz2)
-                print("La resta de la matriz uno {} y la matriz dos {} es: {}".format(matriz1, matriz2, resultado))
+                print("El resultado de la RESTA de dos matrices:")
+                print("Matriz 1:")
+                pintar_matriz(matriz1)
+                print("Matriz 2:")
+                pintar_matriz(matriz2)
+                print("Matriz de resultado:")
+                pintar_matriz(resultado)
             else:
                 print("\t\t----------ERROR---------- "
                       "\nLas matrices no tienen los mismos elementos"
                       "\nVuelve a leer las instrucciones")
-        case "C":
+        case "3":
             print("Suma de dos matrices")
             print("Recuerda que para que la suma sea valida ambas matrices tienen que tener el mismo numero de "
                   "elementos")
@@ -166,30 +190,43 @@ def opcion_menu(opcion):
             matriz2 = llenado_matriz("C", num_filas)
             if matrices_iguales(matriz1, matriz2):
                 resultado = suma_matriz(matriz1, matriz2)
-                print("La suma de la matriz uno {} y la matriz dos {} es: {}".format(matriz1, matriz2, resultado))
+                print("El resultado de la SUMA de dos matrices:")
+                print("Matriz 1:")
+                pintar_matriz(matriz1)
+                print("Matriz 2:")
+                pintar_matriz(matriz2)
+                print("Matriz de resultado:")
+                pintar_matriz(resultado)
             else:
                 print("\t\t----------ERROR---------- "
                       "\nLas matrices no tienen los mismos elementos"
                       "\nVuelve a leer las instrucciones")
 
-        case "D":
+        case "4":
             print("Obtencion del Determinante de una matriz")
             num_filas = int(input("Introduce el numero de filas que tiene la Matriz: "))
             matriz = llenado_matriz("D", num_filas)
             determinante = determinante_matriz(matriz)
-            print("El determinante de la matriz {} es: {}".format(matriz, determinante))
+            print("El determinante de la matriz:")
+            pintar_matriz(matriz)
+            print(f"Es: {determinante}")
 
-        case "E":
+        case "5":
             print("Solucion de un sistema de ecuaciones de N dimensiones")
             print("Recuerda que le numero de incognitas tiene que ser el mismo que el de las ecuaciones")
             num_filas = int(input("Introduce el numero de Incognitas que tiene la matriz: "))
             matriz, vector_resultados = llenado_matriz("E", num_filas)
-            print("Matriz: {}".format(matriz))
+            print("Matriz de las incognitas:")
+            pintar_matriz(matriz)
             print("Vector: {}".format(vector_resultados))
-            resultado = sistema_N_Dimensiones(matriz, vector_resultados)
-            print("El valor de las incognitas en orden es el siguiente: {}".format(resultado))
-
-        case "S":
+            if determinante_matriz(matriz) == 0:
+                print("La matriz no tiene solucion o tiene multiples soluciones")
+            else:
+                resultadoMatriz = sistema_N_Dimensiones(matriz, vector_resultados)
+                print("El valor de las incognitas en orden es el siguiente: {}".format(resultadoMatriz))
+        case "6":
+            clearConsole()
+        case "X":
             print("\nAdios...")
         case other:
             print("Opcion no valida :/")
@@ -199,8 +236,8 @@ def main():
     while True:
         menu()
         opcion = input("Introduce la opcion: ")
-        opcion_menu(opcion.upper())
-        if opcion.upper() == "S":
+        opcion_menu(opcion)
+        if opcion.upper() == "X":
             break
     print("\n\t\t#######\tGracias por usar el Programa :D\t#######")
 
